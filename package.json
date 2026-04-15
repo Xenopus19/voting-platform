@@ -22,8 +22,11 @@
   "homepage": "https://github.com/Xenopus19/voting-platform#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
+    "@types/sequelize": "^4.28.20",
+    "@types/umzug": "^2.3.9",
     "eslint": "^10.2.0",
     "globals": "^17.5.0",
     "jiti": "^2.6.1",
@@ -33,7 +36,13 @@
     "typescript-eslint": "^8.58.1"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "pg": "^8.20.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8",
+    "umzug": "^3.8.2",
+    "zod": "^4.3.6"
   }
 }
