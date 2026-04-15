@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize'
-import { databaseUrl } from '../config'
+import { DATABASE_URL } from '../config'
 import { Umzug, SequelizeStorage } from 'umzug'
 
-export const sequelize = new Sequelize(databaseUrl, {
+export const sequelize = new Sequelize(DATABASE_URL, {
   dialect: 'postgres',
 })
 

@@ -6,3 +6,10 @@ export const CreateUserSchema = z.object({
 });
 
 export type NewUser = z.infer<typeof CreateUserSchema>;
+
+export const LoginSchema = CreateUserSchema.pick({
+  username: true,
+  password: true
+})
+
+export type LoginInfo = z.infer<typeof LoginSchema>;

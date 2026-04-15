@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const port: number = parseInt(process.env.PORT || '3001', 10);
+export const PORT: number = parseInt(process.env.PORT || '3001', 10);
 
-export const databaseUrl: string = process.env.DATABASE_URL || '';
+export const DATABASE_URL: string = process.env.DATABASE_URL || '';
+
+export const JWT_SECRET: string = process.env.JWT_SECRET || 'jwt_secret';
