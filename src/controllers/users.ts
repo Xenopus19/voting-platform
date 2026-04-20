@@ -7,6 +7,7 @@ const router = Router();
 import User, { UserAttributes } from "../models/User";
 import { CreateUserSchema, NewUser } from "../schemas/user.schema";
 import { JWT_SECRET } from "../config";
+import Vote from "../models/Vote";
 
 router.get("/", async (req, res) => {
   try {
@@ -36,7 +37,10 @@ router.get("/me", async (req, res) => {
       return res.status(401).send("Invalid token payload");
     }
 
-    const user = await User.findByPk(decodedUser.id);
+    const user = await User.findByPk(decodedUser.id, {include: {
+      model: Vote,
+      as: 'votes'
+    }});
     return res.status(200).json(user)
   } catch (error) {
     res.status(400).json({

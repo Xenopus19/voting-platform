@@ -1,10 +1,12 @@
-import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
+import { Model, DataTypes, InferAttributes, InferCreationAttributes, CreationOptional, NonAttribute } from "sequelize";
 import { sequelize } from "../util/db";
+import Vote from "./Vote";
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<number>;
   declare username: string;
   declare passwordHash: string;
+  declare votes?: NonAttribute<Vote[]>;
 }
 User.init(
   {

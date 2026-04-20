@@ -1,7 +1,7 @@
 const { sequelize } = require("../util/db");
 import { QueryInterface, DataTypes } from 'sequelize';
 
-interface MigrationContext {
+export interface MigrationContext {
   context: QueryInterface;
 }
 

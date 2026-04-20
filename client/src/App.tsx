@@ -7,6 +7,8 @@ import SignUp from "./components/sign-up";
 import Login from "./components/login";
 import UserPage from "./components/user-page";
 import { UserProvider } from "./context/userContext";
+import VotePage from "./components/vote-page";
+import CreateVote from "./components/create-vote";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,14 @@ const router = createBrowserRouter([
       {
         path: "/user-page",
         element: <UserPage />,
+      },
+      {
+        path: "/votes/:id",
+        element: <VotePage />,
+      },
+      {
+        path: "/create-vote",
+        element: <CreateVote />,
       },
     ],
   },
