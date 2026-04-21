@@ -33,8 +33,6 @@ const VoteChart = ({ vote }: VoteChartPropsType) => {
       votersAmount: { label: "Votes", color: "#2563eb" },
     } as ChartConfig,
   );
-  console.log(chartConfig);
-  console.log(data);
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
       <BarChart

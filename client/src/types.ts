@@ -25,3 +25,8 @@ export interface Option{
     text: string,
     votersAmount: number
 }
+
+export interface CanVoteResponse{
+  canVote: boolean,
+  message: string
+}

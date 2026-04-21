@@ -1,7 +1,7 @@
-PUT http://localhost:3002/api/votes/2
+PUT http://localhost:3001/api/votes/2
 Content-Type: application/json
 
 {
-  "fingerprint": "fjfkk3431",
-  "optionId": 2
+  "fingerprint": "fkk3431",
+  "optionId": 5
 }

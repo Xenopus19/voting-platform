@@ -1,4 +1,4 @@
-POST http://localhost:3002/api/votes/2/canVote
+POST http://localhost:3001/api/votes/2/canVote
 Content-Type: application/json
 
 {
