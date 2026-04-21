@@ -1,3 +1,4 @@
+import Fingerprint from "./Fingerprint";
 import Option from "./Option";
 import User from "./User";
 import Vote from "./Vote";
@@ -8,6 +9,16 @@ Vote.hasMany(Option, {
 });
 
 Option.belongsTo(Vote, {
+  foreignKey: "voteId",
+  as: "vote",
+});
+
+Vote.hasMany(Fingerprint, {
+  foreignKey: "voteId",
+  as: "fingerprints"
+});
+
+Fingerprint.belongsTo(Vote, {
   foreignKey: "voteId",
   as: "vote",
 });

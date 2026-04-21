@@ -1,0 +1,7 @@
+PUT http://localhost:3002/api/votes/2
+Content-Type: application/json
+
+{
+  "fingerprint": "fjfkk3431",
+  "optionId": 2
+}
