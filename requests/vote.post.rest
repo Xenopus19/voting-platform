@@ -4,7 +4,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hb
 
 {
   "title": "My Vote Title",
-  "expirationDate": "2026-04-21T12:05:03.000Z",
+  "expirationDate": "2026-04-30T12:05:03.000Z",
   "options": [
     { "text": "Opt1" },
     { "text": "Opt2" }

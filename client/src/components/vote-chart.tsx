@@ -34,7 +34,7 @@ const VoteChart = ({ vote }: VoteChartPropsType) => {
     } as ChartConfig,
   );
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="mt-2 min-h-[200px] w-full">
       <BarChart
         accessibilityLayer
         data={data}

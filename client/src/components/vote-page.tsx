@@ -1,6 +1,6 @@
 import { getVote, voteForOption } from "@/services/vote";
 import type { VoteFull } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useParams } from "react-router-dom";
 import VoteChart from "./vote-chart";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
@@ -38,7 +38,18 @@ const VotePage = () => {
     return <p>Not valid id (ID: {id})</p>;
   }
   if (!vote) return;
-  console.log(canVote)
+  
+  const getVoteStatus = (): ReactNode => {
+    if(new Date(vote.expirationDate) < new Date()){
+      return <p>The vote has already ended.</p>
+    }
+    else if(!canVote){
+      return <p>You have already voted on this poll.</p>
+    }
+    else{
+      return <p>This vote expires on: {new Date(vote.expirationDate).toLocaleDateString()}.</p>
+    }
+  }
 
   const makeVote = async (optionId: number) => {
     try {
@@ -49,7 +60,8 @@ const VotePage = () => {
   };
   return (
     <>
-      <p className="text-2xl font-extrabold">{vote?.title}</p>
+      <p className="mb-2 text-2xl font-extrabold">{vote?.title}</p>
+      {getVoteStatus()}
       {canVote === true && <VoteForm options={vote.options} onSubmit={makeVote} />}
       <VoteChart vote={vote} />
     </>

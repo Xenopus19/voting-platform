@@ -1,41 +1,24 @@
-import { Router } from "express";
-import Vote, { VoteAttributes } from "../models/Vote";
-import Option, { NewOptionAttributes } from "../models/Option";
+import { Response, Router } from "express";
+import Vote from "../models/Vote";
+import Option from "../models/Option";
 import { User } from "../models";
 import { CreateVoteSchema, VoteCreationInfoType } from "../schemas/vote.schema";
 import tokenExtractor, { CustomRequest } from "../middleware/tokenExtractor";
-import { text } from "node:stream/consumers";
 import Fingerprint, { NewFingerprintAttributes } from "../models/Fingerprint";
-import canVoteCheckByFingerprint from "../middleware/canVoteCheckByFingerprint";
+import voteFinder from "../middleware/voteFinder";
+import canVoteCheck from "../middleware/canVoteCheckByFingerprint";
 
 const router = Router();
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", voteFinder, async (req: CustomRequest, res) => {
   try {
-    const voteId = parseInt(req.params.id);
-    const vote = await Vote.findByPk(voteId, {
-      include: [
-        {
-          model: Option,
-          as: "options",
-          attributes: {
-            exclude: ["createdAt", "updatedAt", "voteId"],
-          },
-        },
-        {
-          model: User,
-          as: "user",
-          attributes: ["username"],
-        },
-      ],
-    });
-    if (!vote) {
-      return res.status(404).send("Vote with this id is nonexistent");
+    if(req.vote){
+      return res.json(req.vote);
     }
-    res.json(vote);
+    return res.status(400).send('Error getting vote.');
   } catch (error) {
     res.status(400).json({
-      message: "Authorization error",
+      message: "Error getting vote",
       details: error instanceof Error ? error.message : error,
     });
   }
@@ -72,7 +55,7 @@ router.post("/", tokenExtractor, async (req: CustomRequest, res) => {
   }
 });
 
-router.post("/:id/canVote", canVoteCheckByFingerprint ,async (req, res) => {
+router.post("/:id/canVote", canVoteCheck ,async (req: CustomRequest, res: Response) => {
   try {
     return res.json({canVote: true})
   } catch (error) {
@@ -83,7 +66,7 @@ router.post("/:id/canVote", canVoteCheckByFingerprint ,async (req, res) => {
   }
 });
 
-router.put("/:id", canVoteCheckByFingerprint ,async (req, res) => {
+router.put("/:id", canVoteCheck ,async (req: CustomRequest, res: Response) => {
   try {
     if(!req.body.optionId || !req.params.id || typeof req.params.id !== 'string')
     {
