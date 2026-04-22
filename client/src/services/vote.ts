@@ -59,3 +59,12 @@ export const voteForOption = async (
     throw error;
   }
 };
+
+export const deleteVote = async (voteId: number) => {
+  try {
+    await api.delete(`votes/${voteId}`);
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}

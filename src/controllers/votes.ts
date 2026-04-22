@@ -93,4 +93,20 @@ router.put("/:id", canVoteCheck ,async (req: CustomRequest, res: Response) => {
   }
 });
 
+router.delete("/:id", tokenExtractor, voteFinder ,async (req: CustomRequest, res: Response) => {
+  try {
+    if(!(req.vote?.userId === req.decodedToken.id))
+    {
+      return res.status(401).send("You don't have rights to delete this vote.")
+    }
+    await req.vote?.destroy();
+    return res.status(204).send('Vote deleted successfully.');
+  } catch (error) {
+    res.status(400).json({
+      message: "Error deleting a vote.",
+      details: error instanceof Error ? error.message : error,
+    });
+  }
+});
+
 export default router;

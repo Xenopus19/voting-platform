@@ -1,0 +1,7 @@
+DELETE  http://localhost:3001/api/votes/4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJMb2dpblVzZXIiLCJpYXQiOjE3NzYyNDY4MTV9.fIefXpfS-YSAkA0PQN-Irw_p7MLqUHCnFvvH2PVEHa0
+
+{
+
+}
