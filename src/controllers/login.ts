@@ -18,16 +18,20 @@ router.post("/", async (req, res) => {
 
     if (!user) {
       console.log("Username");
-      return res.status(404).send("Invalid credentials.");
+      return res.status(404).json({
+        message: "User with this username was not found.",
+      });
     }
 
     const isPasswordCorrect = await bcrypt.compare(
       loginInfo.password,
-      user.passwordHash, 
+      user.passwordHash,
     );
     if (!isPasswordCorrect) {
       console.log("Password");
-      return res.status(404).send("Invalid credentials.");
+      return res.status(404).json({
+        message: "Invalid credentials.",
+      });
     }
 
     const tokenUser: TokenUser = {

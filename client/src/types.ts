@@ -30,3 +30,12 @@ export interface CanVoteResponse{
   canVote: boolean,
   message: string
 }
+
+export interface ServerErrorResponse {
+  message: string;
+  details?: string;
+}
+
+export const isServerError = (error: any): error is ServerErrorResponse => {
+  return error && typeof error.message === 'string';
+};

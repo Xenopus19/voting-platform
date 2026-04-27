@@ -9,6 +9,7 @@ import UserPage from "./components/user-page";
 import { UserProvider } from "./context/userContext";
 import VotePage from "./components/vote-page";
 import CreateVote from "./components/create-vote";
+import { MessageProvider } from "./context/errorContext";
 
 const router = createBrowserRouter([
   {
@@ -48,7 +49,9 @@ function App() {
   return (
     <>
       <UserProvider>
+        <MessageProvider>
         <RouterProvider router={router} />
+        </MessageProvider>
       </UserProvider>
     </>
   );

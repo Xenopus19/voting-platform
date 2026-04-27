@@ -15,10 +15,10 @@ const tokenExtractor = (req: CustomRequest, res: Response, next: NextFunction) =
       req.decodedToken = jwt.verify(authorization.substring(7), JWT_SECRET);
     } catch {
       console.log("Invalid token");
-      return res.status(401).json({ error: "token invalid" });
+      return res.status(401).json({ message: "token invalid" });
     }
   } else {
-    return res.status(401).json({ error: "token missing" });
+    return res.status(401).json({ message: "token missing" });
   }
   next();
 };

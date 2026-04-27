@@ -10,7 +10,9 @@ const voteFinder = async (
   next: NextFunction,
 ) => {
   if (!req.params.id || typeof req.params.id !== "string") {
-    return res.status(404).send("Invalid vote id.");
+    return res.status(401).json({
+      message: "Invalid vote id.",
+    });
   }
   const voteId = parseInt(req.params.id);
   const vote = await Vote.findByPk(voteId, {
@@ -30,7 +32,9 @@ const voteFinder = async (
     ],
   });
   if (!vote) {
-    return res.status(404).send("Vote with this id is nonexistent");
+    return res.status(404).json({
+      message: "Vote with this id was not found.",
+    });
   }
   req.vote = vote;
   next();

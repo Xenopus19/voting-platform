@@ -25,7 +25,9 @@ router.get("/me", async (req, res) => {
   try {
     const token = req.headers.authorization?.substring(7);
     if (!token) {
-      return res.status(404).send("Invalid token");
+      return res.status(401).json({
+        message: "Invalid token.",
+      });
     }
 
     const decodedUser = jwt.verify(token, JWT_SECRET);
@@ -34,14 +36,18 @@ router.get("/me", async (req, res) => {
       !decodedUser.id ||
       !decodedUser.username
     ) {
-      return res.status(401).send("Invalid token payload");
+      return res.status(401).json({
+        message: "Invalid token.",
+      });
     }
 
-    const user = await User.findByPk(decodedUser.id, {include: {
-      model: Vote,
-      as: 'votes'
-    }});
-    return res.status(200).json(user)
+    const user = await User.findByPk(decodedUser.id, {
+      include: {
+        model: Vote,
+        as: "votes",
+      },
+    });
+    return res.status(200).json(user);
   } catch (error) {
     res.status(400).json({
       message: "Error getting users",

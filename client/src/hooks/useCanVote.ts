@@ -1,4 +1,5 @@
 import { checkCanVoteByFingerprint } from "@/services/vote";
+import { isServerError } from "@/types";
 import { useEffect, useState } from "react";
 
 const useCanVote = (voteId: number, fingerprint: string) => {
@@ -9,13 +10,12 @@ const useCanVote = (voteId: number, fingerprint: string) => {
       return;
     }
     try {
-      const response = await checkCanVoteByFingerprint(voteId, fingerprint);
-      setCanVote(response.canVote);
-    } catch (error: any) {
-      if (error.response && error.response.status === 403) {
+      await checkCanVoteByFingerprint(voteId, fingerprint);
+      setCanVote(true);
+    } catch (error) {
+      if(isServerError(error))
+      {
         setCanVote(false);
-      } else {
-        console.error("An unknown error occured", error);
       }
     }
   };

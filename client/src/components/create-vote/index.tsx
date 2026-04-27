@@ -17,6 +17,7 @@ import { Calendar } from "../ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { createVote } from "@/services/vote";
 import { useNavigate } from "react-router-dom";
+import { useMessage } from "@/context/errorContext";
 
 const CreateVoteSchema = z.object({
   title: z
@@ -43,6 +44,7 @@ const CreateVoteSchema = z.object({
 export type VoteCreationInfoType = z.infer<typeof CreateVoteSchema>;
 
 const CreateVote = () => {
+  const {setError, setFullMessage} = useMessage()
   const navigate = useNavigate();
   const form = useForm<VoteCreationInfoType>({
     resolver: zodResolver(CreateVoteSchema),
@@ -61,10 +63,11 @@ const CreateVote = () => {
   const submit = async (data: VoteCreationInfoType) => {
     try{
       await createVote(data);
+      setFullMessage('Vote created successfully.', false, "Send link found on it's page to your voters.")
       navigate('/user-page');
     }
     catch(error){
-
+      setError(error)
     }
   };
   return (
