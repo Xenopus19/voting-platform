@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import { useUser } from "@/context/userContext";
+import VoteChart from "./vote-chart";
+import { randomMockVote } from "@/mock/mock-vote";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -15,6 +17,8 @@ const MainPage = () => {
   const onLoginClick = () => {
     navigate("/login");
   }
+
+  const randomMock = randomMockVote();
   return (
     <div className="flex flex-col items-center justify-center space-y-6 text-center">
       <p className="text-xl max-w-lg mx-auto font-bold">
@@ -33,7 +37,8 @@ const MainPage = () => {
           Login
         </Button>
       </div>}
-      
+      <p className="mb-2 text-l font-bold">{randomMock.title}</p>
+      <VoteChart vote={randomMock}/>
     </div>
   );
 };

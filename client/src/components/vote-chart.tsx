@@ -21,6 +21,7 @@ const VoteChart = ({ vote }: VoteChartPropsType) => {
       fill: `var(--color-option_${index})`,
     };
   });
+  data.sort((a, b) => b.votersAmount - a.votersAmount)
   const chartConfig = options.reduce(
     (acc, option, index) => {
       acc[`option_${index}`] = {

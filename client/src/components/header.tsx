@@ -3,13 +3,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 
 const Header = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const { user, logout } = useUser();
 
   const goToUserPage = () => {
-    if(user)
-        navigate('user-page');
-  }
+    if (user) navigate("user-page");
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <div className="bg-indigo-950 flex flex-row items-center justify-between px-10">
@@ -20,8 +24,12 @@ const Header = () => {
       </Link>
       {user && (
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={goToUserPage}>My Page</Button>
-          <Button variant="secondary" onClick={logout}>Logout</Button>
+          <Button variant="secondary" onClick={goToUserPage}>
+            My Page
+          </Button>
+          <Button variant="secondary" onClick={handleLogout}>
+            Logout
+          </Button>
         </div>
       )}
     </div>

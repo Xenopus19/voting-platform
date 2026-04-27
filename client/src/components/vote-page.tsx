@@ -1,60 +1,39 @@
-import { deleteVote, getVote, voteForOption } from "@/services/vote";
-import { isServerError, type VoteFull } from "@/types";
-import { useEffect, useState, type ReactNode } from "react";
+import { deleteVote, voteForOption } from "@/services/vote";
+import { type ReactNode } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import VoteChart from "./vote-chart";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import useCanVote from "@/hooks/useCanVote";
 import VoteForm from "./vote-form";
 import { useUser } from "@/context/userContext";
 import { Button } from "./ui/button";
 import CopyLink from "./copy-link";
 import { useMessage } from "@/context/errorContext";
+import useVote from "@/hooks/useVote";
+import useFingerprint from "@/hooks/useFingerprint";
 
 const VotePage = () => {
-  const [vote, setVote] = useState<VoteFull>();
-  const [isVoteLoading, setIsVoteLoading] = useState(false);
-  const [fingerprint, setFingerprint] = useState("");
-  const { user, checkUser, isLoading } = useUser();
+  const { fingerprint } = useFingerprint();
+  const { user, isLoading } = useUser();
   const navigate = useNavigate();
-  const {setError, setFullMessage} = useMessage();
+  const { setError, setFullMessage } = useMessage();
 
   const { id } = useParams<{ id: string }>();
 
   const voteId = id ? parseInt(id, 10) : NaN;
+
   const { canVote, checkCanVote } = useCanVote(voteId, fingerprint);
-
-  const fetchVote = async () => {
-    if (isNaN(voteId)) {
-      return;
-    }
-    setIsVoteLoading(true);
-    const response = await getVote(voteId);
-    setVote(response);
-    setIsVoteLoading(false);
-  };
-  useEffect(() => {
-    const getFingerprint = async () => {
-      const fp = await FingerprintJS.load();
-      const result = await fp.get();
-      setFingerprint(result.visitorId);
-    };
-
-    fetchVote();
-    getFingerprint();
-  }, [voteId]);
+  const { vote, isVoteLoading, fetchVote } = useVote(voteId);
 
   if (isNaN(voteId)) {
     return <p>Not valid id (ID: {id})</p>;
   }
-  if(isLoading || isVoteLoading)
-  {
-    return <p>Loading...</p>
+  if (isLoading || (isVoteLoading && !vote)) {
+    return <p>Loading...</p>;
   }
   if (!vote) {
-    navigate('/')
+    navigate("/");
     return;
-  };
+  }
 
   const isExpired = new Date(vote.expirationDate) < new Date();
   const isOwnedByCurrentUser = vote.userId === user?.id;
@@ -70,11 +49,15 @@ const VotePage = () => {
   const makeVote = async (optionId: number) => {
     try {
       await voteForOption(voteId, optionId, fingerprint);
-      setFullMessage('Your vote was successfully applied.', false, 'Thank you for voting.')
+      setFullMessage(
+        "Your vote was successfully applied.",
+        false,
+        "Thank you for voting.",
+      );
       checkCanVote();
       fetchVote();
     } catch (error) {
-      setError(error)
+      setError(error);
     }
   };
 
