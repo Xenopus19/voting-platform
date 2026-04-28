@@ -19,5 +19,12 @@ console.log("Serving static from:", distPath)
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/votes", votesRouter);
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'), (err) => {
+    if (err) {
+      res.status(500).send("index.html not found. ");
+    }
+  });
+});
 
 export default app;
