@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "tsc index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "nodemon index.ts",
     "dev:client": "npm run dev --prefix client",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "lint": "eslint . && npm run lint --prefix client",
-    "install:all": "npm install && npm install --prefix client"
+    "install:all": "npm install && npm install --prefix client",
+    "build": "npm install && npm install --prefix client && tsc && npm run build --prefix client"
   },
   "repository": {
     "type": "git",
