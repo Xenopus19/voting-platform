@@ -4,41 +4,39 @@ import { useCallback, useEffect, useState } from "react";
 
 const useCanVote = (voteId: number, fingerprint: string) => {
   const [canVote, setCanVote] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const checkCanVote = useCallback(async () => {
-    if (!fingerprint || isNaN(voteId)) {
-      return false;
-    }
+    setIsLoading(true);
     try {
       await checkCanVoteByFingerprint(voteId, fingerprint);
+      setCanVote(true);
       return true;
     } catch (error) {
-  
-      if (isServerError(error)) {
-        return false;
-      }
+      setCanVote(false);
+      if (isServerError(error)) return false;
       throw error;
+    } finally {
+      setIsLoading(false);
     }
   }, [voteId, fingerprint]);
 
   useEffect(() => {
     let isMounted = true;
-    checkCanVote()
-      .then((result) => {
-        if (isMounted) {
-          setCanVote(result);
-        }
-      })
-      .catch((err) => {
-        console.error("Error checking vote status:", err);
-      });
+
+    const performCheck = async () => {
+      await checkCanVote();
+      if (!isMounted) return;
+    };
+
+    performCheck();
 
     return () => {
-      isMounted = false; 
+      isMounted = false;
     };
-  }, [checkCanVote]);
+  }, [checkCanVote]); 
 
-  return { canVote, checkCanVote };
+  return { canVote, isLoading, checkCanVote };
 };
 
 export default useCanVote;

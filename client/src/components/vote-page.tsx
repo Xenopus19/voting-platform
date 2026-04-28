@@ -55,9 +55,11 @@ const VotePage = () => {
         false,
         "Thank you for voting.",
       );
-      checkCanVote();
-      fetchVote();
+      await checkCanVote();
+      await fetchVote();
     } catch (error) {
+      await checkCanVote();
+      await fetchVote();
       setError(error);
     }
   };
@@ -69,7 +71,7 @@ const VotePage = () => {
         navigate("/user-page");
       }
     } catch (error) {
-      setError(error)
+      setError(error);
     }
   };
   return (

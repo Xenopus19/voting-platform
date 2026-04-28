@@ -35,7 +35,7 @@ export const checkCanVoteByFingerprint = async (
     );
     return response.data;
   } catch (error) {
-    console.error("Error checking voting for an option.", error);
+    console.error("Server returned error.", error);
     throw error;
   }
 };
