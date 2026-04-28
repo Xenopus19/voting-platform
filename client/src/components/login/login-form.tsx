@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SignUpSchema } from "../sign-up/sign-up-form";
+import { SignUpSchema } from "../sign-up/sign-up-shema";
+
 
 const LoginSchema = SignUpSchema.pick({
     username: true,

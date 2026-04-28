@@ -1,26 +1,48 @@
 import { getVote } from "@/services/vote";
 import type { VoteFull } from "@/types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const useVote = (voteId: number) => {
-    const [vote, setVote] = useState<VoteFull>();
-    const [isVoteLoading, setIsVoteLoading] = useState(false);
+  const [vote, setVote] = useState<VoteFull>();
+  const [isVoteLoading, setIsVoteLoading] = useState(false);
 
-    const fetchVote = async () => {
-    if (isNaN(voteId)) {
-      return;
-    }
+  const fetchVote = useCallback(async () => {
+    if (isNaN(voteId)) return;
+
     setIsVoteLoading(true);
-    const response = await getVote(voteId);
-    setVote(response);
-    setIsVoteLoading(false);
-  };
-
-    useEffect(() => {
-    fetchVote();
+    try {
+      const response = await getVote(voteId);
+      setVote(response);
+    } catch (error) {
+      console.error("Failed to fetch vote:", error);
+    } finally {
+      setIsVoteLoading(false);
+    }
   }, [voteId]);
 
-    return {vote, isVoteLoading, fetchVote}
-}
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadData = async () => {
+      if (isNaN(voteId)) return;
+
+      setIsVoteLoading(true);
+      const response = await getVote(voteId);
+
+      if (isMounted) {
+        setVote(response);
+        setIsVoteLoading(false);
+      }
+    };
+
+    loadData();
+
+    return () => {
+      isMounted = false; 
+    };
+  }, [voteId]);
+
+  return { vote, isVoteLoading, fetchVote };
+};
 
 export default useVote;

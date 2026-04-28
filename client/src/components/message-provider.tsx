@@ -1,15 +1,6 @@
+import { MessageContext } from "@/context/messageContext";
 import { isServerError } from "@/types";
-import React, { createContext, useContext, useState, useEffect } from "react";
-
-interface MessageContextType {
-  message: string;
-  setFullMessage: (message: string, isError: boolean, details?: string) => void;
-  isError: boolean;
-  details?: string;
-  setError: (error: any) => void;
-}
-
-const MessageContext = createContext<MessageContextType | undefined>(undefined);
+import React, { useState } from "react";
 
 export const MessageProvider = ({
   children,
@@ -38,7 +29,7 @@ export const MessageProvider = ({
     }, 5000);
   };
 
-  const setError = (error: any) => {
+  const setError = (error: unknown) => {
     if (!isServerError(error)) {
       setFullMessage("An error occured.", true);
       return;
@@ -56,10 +47,4 @@ export const MessageProvider = ({
   );
 };
 
-export const useMessage = () => {
-  const context = useContext(MessageContext);
-  if (context === undefined) {
-    throw new Error("useMessage must be used within a MessageProvider");
-  }
-  return context;
-};
+

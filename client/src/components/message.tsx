@@ -1,7 +1,8 @@
-import { useMessage } from "@/context/errorContext";
+
 import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Alert02Icon, BadgeInfoIcon } from "@hugeicons/core-free-icons";
+import useMessage from "@/hooks/useMessage";
 
 const Message = () => {
   const { message, details, isError } = useMessage();

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AppLayout from "./components/app-layout";
@@ -6,10 +5,10 @@ import MainPage from "./components/main-page";
 import SignUp from "./components/sign-up";
 import Login from "./components/login";
 import UserPage from "./components/user-page";
-import { UserProvider } from "./context/userContext";
 import VotePage from "./components/vote-page";
 import CreateVote from "./components/create-vote";
-import { MessageProvider } from "./context/errorContext";
+import UserProvider from "./components/user-provider";
+import { MessageProvider } from "./components/message-provider";
 
 const router = createBrowserRouter([
   {
@@ -44,7 +43,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [count, setCount] = useState(0);
+
 
   return (
     <>

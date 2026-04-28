@@ -36,7 +36,7 @@ const UserPage = () => {
       </div>
 
       <div className="m-2 p-2">
-        {user.votes.map((v, index) => {
+        {user.votes.map((v) => {
           return (
             <div key={v.title}>
               <VoteCard vote={v} />

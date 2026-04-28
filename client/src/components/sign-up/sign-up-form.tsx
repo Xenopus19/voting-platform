@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormField } from "@/components/ui/form";
@@ -11,17 +10,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { SignUpSchema, type SignUpInfoType } from "./sign-up-shema";
 
-export const SignUpSchema = z.object({
-  username: z.string().min(3, {
-    message: "Username should be no less than 2 symbols.",
-  }),
-  password: z.string().min(6, {
-    message: "Password should be no less than 6 symbols.",
-  }),
-});
-
-export type SignUpInfoType = z.infer<typeof SignUpSchema>;
 
 interface SignUpFormProps {
   onSubmit: (data: SignUpInfoType) => void;

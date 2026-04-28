@@ -1,7 +1,8 @@
 import { login, signUp } from "@/services/user";
-import SignUpForm, { type SignUpInfoType } from "./sign-up-form";
+import SignUpForm from "./sign-up-form";
 import { useNavigate } from "react-router-dom";
-import { useMessage } from "@/context/errorContext";
+import useMessage from "@/hooks/useMessage";
+import type { SignUpInfoType } from "./sign-up-shema";
 
 const SignUp = () => {
   const {setError} = useMessage();

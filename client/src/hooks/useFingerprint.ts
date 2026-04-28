@@ -1,18 +1,33 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 
 const useFingerprint = () => {
   const [fingerprint, setFingerprint] = useState("");
 
-  const getFingerprint = async () => {
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    setFingerprint(result.visitorId);
-  };
+  const getFingerprint = useCallback(async () => {
+    try {
+      const fp = await FingerprintJS.load();
+      const result = await fp.get();
+      return result.visitorId;
+    } catch (error) {
+      console.error("Fingerprint collection failed:", error);
+      return "";
+    }
+  }, []);
 
   useEffect(() => {
-    getFingerprint();
-  }, []);
+    let isActive = true;
+
+    getFingerprint().then((id) => {
+      if (isActive && id) {
+        setFingerprint(id);
+      }
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [getFingerprint]);
 
   return { fingerprint, getFingerprint };
 };

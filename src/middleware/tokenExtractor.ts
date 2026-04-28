@@ -2,10 +2,11 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
 import { Request, Response, NextFunction } from 'express';
 import Vote from "../models/Vote";
+import { TokenUser } from "../types";
 
 export interface CustomRequest extends Request {
-  decodedToken?: any;
-  vote?: Vote
+  decodedToken?: string | TokenUser | jwt.JwtPayload;
+  vote?: Vote;
 }
 
 const tokenExtractor = (req: CustomRequest, res: Response, next: NextFunction) => {

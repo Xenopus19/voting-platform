@@ -4,7 +4,7 @@ import Option from "../models/Option";
 import { User } from "../models";
 import { CreateVoteSchema, VoteCreationInfoType } from "../schemas/vote.schema";
 import tokenExtractor, { CustomRequest } from "../middleware/tokenExtractor";
-import Fingerprint, { NewFingerprintAttributes } from "../models/Fingerprint";
+import Fingerprint from "../models/Fingerprint";
 import voteFinder from "../middleware/voteFinder";
 import canVoteCheck from "../middleware/canVoteCheckByFingerprint";
 
@@ -26,9 +26,13 @@ router.get("/:id", voteFinder, async (req: CustomRequest, res) => {
   }
 });
 
-
 router.post("/", tokenExtractor, async (req: CustomRequest, res) => {
   try {
+    if (!req.decodedToken || typeof req.decodedToken === "string") {
+      return res.status(401).json({
+        message: "Invalid token.",
+      });
+    }
     const voteCreationInfo: VoteCreationInfoType =
       await CreateVoteSchema.parseAsync(req.body);
     const user = await User.findByPk(req.decodedToken.id);
@@ -118,6 +122,11 @@ router.delete(
   voteFinder,
   async (req: CustomRequest, res: Response) => {
     try {
+      if (!req.decodedToken || typeof req.decodedToken === "string") {
+        return res.status(401).json({
+          message: "Invalid token.",
+        });
+      }
       if (!(req.vote?.userId === req.decodedToken.id)) {
         return res.status(400).json({
           message: "You don't have rights to delete this vote.",

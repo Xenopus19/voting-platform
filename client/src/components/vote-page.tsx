@@ -7,9 +7,10 @@ import VoteForm from "./vote-form";
 import { useUser } from "@/context/userContext";
 import { Button } from "./ui/button";
 import CopyLink from "./copy-link";
-import { useMessage } from "@/context/errorContext";
+
 import useVote from "@/hooks/useVote";
 import useFingerprint from "@/hooks/useFingerprint";
+import useMessage from "@/hooks/useMessage";
 
 const VotePage = () => {
   const { fingerprint } = useFingerprint();
@@ -67,7 +68,9 @@ const VotePage = () => {
         await deleteVote(vote.id);
         navigate("/user-page");
       }
-    } catch (error) {}
+    } catch (error) {
+      setError(error)
+    }
   };
   return (
     <>

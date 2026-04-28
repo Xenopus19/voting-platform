@@ -1,7 +1,6 @@
 import type { VoteCreationInfoType } from "@/components/create-vote";
-import type { CanVoteResponse, VoteFull } from "@/types";
+import { isServerError, type CanVoteResponse, type VoteFull } from "@/types";
 import api from "@/util/api";
-import axios from "axios";
 
 export const getVote = async (voteId: number): Promise<VoteFull> => {
   try {
@@ -52,8 +51,8 @@ export const voteForOption = async (
       optionId,
     });
     return response.data;
-  } catch (error: any) {
-    if (error.response && error.response.status === 403) {
+  } catch (error: unknown) {
+    if (isServerError(error)) {
       return { canVote: false };
     }
     throw error;

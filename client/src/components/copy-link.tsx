@@ -1,14 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 const CopyLink = () => {
-  const [pageUrl, setPageUrl] = useState("");
+  const [pageUrl ] = useState(typeof window !== "undefined" ? window.location.href : "");
   const [isCopied, setIsCopied] = useState(false);
-
-  useEffect(() => {
-    setPageUrl(window.location.href);
-  }, []);
 
   const handleCopy = async () => {
     try {

@@ -61,7 +61,7 @@ router.post("/", async (req, res) => {
     const newUser: NewUser = await CreateUserSchema.parseAsync(req.body);
 
     const hashedPassword: string = await bcrypt.hash(newUser.password, 10);
-    const { password, ...userWithoutPassword } = newUser;
+    const { password: _, ...userWithoutPassword } = newUser;
 
     const user: UserAttributes = await User.create({
       ...userWithoutPassword,

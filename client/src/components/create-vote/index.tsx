@@ -17,7 +17,9 @@ import { Calendar } from "../ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover"
 import { createVote } from "@/services/vote";
 import { useNavigate } from "react-router-dom";
-import { useMessage } from "@/context/errorContext";
+import useMessage from "@/hooks/useMessage";
+import { useState } from "react";
+
 
 const CreateVoteSchema = z.object({
   title: z
@@ -46,11 +48,12 @@ export type VoteCreationInfoType = z.infer<typeof CreateVoteSchema>;
 const CreateVote = () => {
   const {setError, setFullMessage} = useMessage()
   const navigate = useNavigate();
+  const [defaultDate] = useState(() => new Date(Date.now() + 86400000));
   const form = useForm<VoteCreationInfoType>({
     resolver: zodResolver(CreateVoteSchema),
     defaultValues: {
       title: "My Vote Title",
-      expirationDate: new Date(Date.now() + 86400000),
+      expirationDate: defaultDate,
       options: [{ text: "" }, { text: "" }],
     },
   });

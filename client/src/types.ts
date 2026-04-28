@@ -12,7 +12,7 @@ export interface VoteBase {
 }
 
 export interface VoteFull extends VoteBase {
-  options: Option[]; 
+  options: Option[];
   user?: {
     username: string;
   };
@@ -20,15 +20,15 @@ export interface VoteFull extends VoteBase {
   updatedAt: string;
 }
 
-export interface Option{
-    id: number, 
-    text: string,
-    votersAmount: number
+export interface Option {
+  id: number;
+  text: string;
+  votersAmount: number;
 }
 
-export interface CanVoteResponse{
-  canVote: boolean,
-  message: string
+export interface CanVoteResponse {
+  canVote: boolean;
+  message: string;
 }
 
 export interface ServerErrorResponse {
@@ -36,6 +36,11 @@ export interface ServerErrorResponse {
   details?: string;
 }
 
-export const isServerError = (error: any): error is ServerErrorResponse => {
-  return error && typeof error.message === 'string';
+export const isServerError = (error: unknown): error is ServerErrorResponse => {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof (error as Record<string, unknown>).message === "string"
+  );
 };

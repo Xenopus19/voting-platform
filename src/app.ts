@@ -3,6 +3,7 @@ import usersRouter from "./controllers/users";
 import loginRouter from "./controllers/login";
 import votesRouter from "./controllers/votes";
 import cors from 'cors';
+import path from 'path';
 const app = express();
 
 app.use(express.json())
@@ -11,6 +12,8 @@ app.use(cors({
   credentials: true
 }))
 
+const distPath = path.join(__dirname, '..', 'client', 'dist');
+app.use(express.static(distPath));
 
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);

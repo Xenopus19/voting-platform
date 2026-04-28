@@ -1,11 +1,12 @@
 import { login } from "@/services/user";
 import LoginForm, { type LoginInfoType } from "./login-form";
 import { useNavigate } from "react-router-dom";
-import { useMessage } from "@/context/errorContext";
+import useMessage from "@/hooks/useMessage";
+
 
 const Login = () => {
   const navigate = useNavigate();
-  const {setFullMessage, setError} = useMessage();
+  const { setError} = useMessage();
   const onSubmit = async (data: LoginInfoType) => {
     try {
       const response = await login(data);
