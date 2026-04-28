@@ -1,5 +1,6 @@
 import type { LoginInfoType } from "@/components/login/login-form";
-import type { SignUpInfoType } from "@/components/sign-up/sign-up-form";
+import type { SignUpInfoType } from "@/components/sign-up/sign-up-shema";
+
 import api from "@/util/api";
 
 export const signUp = async (signUpInfo: SignUpInfoType) => {

@@ -12,8 +12,9 @@ app.use(cors({
   credentials: true
 }))
 
-const distPath = path.join(__dirname, '..', 'client', 'dist');
+const distPath = path.join(process.cwd(), 'client', 'dist');
 app.use(express.static(distPath));
+console.log("Serving static from:", distPath)
 
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
