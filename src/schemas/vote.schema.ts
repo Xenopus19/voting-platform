@@ -3,8 +3,8 @@ import z from "zod";
 export const CreateVoteSchema = z.object({
   title: z
     .string()
-    .max(15, {
-      message: "Vote title should be no more than 15 symbols.",
+    .max(50, {
+      message: "Vote title should be no more than 50 symbols.",
     })
     .min(3, {
       message: "Vote title should be no less than 3 symbols.",
